@@ -1,0 +1,281 @@
+/*
+  src/styles/tailwind.css
+
+  This file defines custom Tailwind CSS configurations, base styles,
+  component classes, and utility classes to achieve a modern, sleek, and elegant UI.
+  It's intended to be processed by Tailwind CSS (either via CLI, PostCSS,
+  or compatible CDN setups that can interpret these directives).
+*/
+
+/*
+  Import Tailwind's base styles, component classes, and utility classes.
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Define custom base styles.
+  These are global styles applied to HTML elements.
+*/
+@layer base {
+  body {
+    /* Apply fonts imported in public/index.html and antialiasing for a smoother look */
+    font-family: "Inter", "Roboto", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    @apply bg-slate-50 text-slate-900 antialiased selection:bg-sky-300 selection:text-sky-900;
+    /* Ensure smooth scrolling behavior */
+    scroll-behavior: smooth;
+  }
+
+  /*
+    Define root-level CSS variables for a custom color scheme.
+    These can be used in Tailwind classes (e.g., bg-[var(--color-primary)]) or custom CSS.
+    The theme() function accesses Tailwind's theme configuration.
+  */
+  :root {
+    --color-primary: theme("colors.sky.600");
+    --color-primary-hover: theme("colors.sky.700");
+    --color-primary-active: theme("colors.sky.800");
+    --color-primary-focus-ring: theme("colors.sky.500");
+    --color-primary-text: theme("colors.white");
+
+    --color-secondary: theme("colors.slate.700");
+    --color-secondary-hover: theme("colors.slate.800");
+    --color-secondary-active: theme("colors.slate.900");
+    --color-secondary-focus-ring: theme("colors.slate.500");
+    --color-secondary-text: theme("colors.white");
+
+    --color-accent: theme("colors.amber.500"); /* Amber for a warm, inviting accent */
+    --color-accent-hover: theme("colors.amber.600");
+    --color-accent-text: theme("colors.slate.900");
+
+    --color-success: theme("colors.green.600");
+    --color-success-bg: theme("colors.green.50");
+    --color-success-text: theme("colors.green.700");
+    
+    --color-error: theme("colors.red.600");
+    --color-error-bg: theme("colors.red.50");
+    --color-error-text: theme("colors.red.700");
+
+    --color-warning: theme("colors.yellow.500");
+    --color-warning-bg: theme("colors.yellow.50");
+    --color-warning-text: theme("colors.yellow.700");
+
+    /* Consistent border radius variables for a cohesive look */
+    --border-radius-sm: theme("borderRadius.md");   /* Smaller elements, tags */
+    --border-radius-md: theme("borderRadius.lg");   /* Buttons, inputs */
+    --border-radius-lg: theme("borderRadius.xl");  /* Cards, modals */
+    --border-radius-full: theme("borderRadius.full"); /* Circular elements */
+
+    /* Refined shadow system using HSL for soft, modern depth */
+    --shadow-color: 220 3% 15%; /* HSL for slate-like shadow, use with %alpha% placeholder */
+    --shadow-xs: 0 1px 2px 0 hsl(var(--shadow-color) / 0.03);
+    --shadow-sm: 0 1px 3px 0 hsl(var(--shadow-color) / 0.05), 0 1px 2px -1px hsl(var(--shadow-color) / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(var(--shadow-color) / 0.07), 0 2px 4px -2px hsl(var(--shadow-color) / 0.07);
+    --shadow-lg: 0 10px 15px -3px hsl(var(--shadow-color) / 0.07), 0 4px 6px -4px hsl(var(--shadow-color) / 0.07);
+    --shadow-xl: 0 20px 25px -5px hsl(var(--shadow-color) / 0.08), 0 8px 10px -6px hsl(var(--shadow-color) / 0.08);
+    --shadow-2xl: 0 25px 50px -12px hsl(var(--shadow-color) / 0.15);
+    --shadow-inner: inset 0 2px 4px 0 hsl(var(--shadow-color) / 0.04);
+  }
+
+  /* Custom Scrollbar Styles (WebKit Browsers for a sleeker interface) */
+  ::-webkit-scrollbar {
+    width: 10px; /* Slightly wider for easier interaction */
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: theme("colors.slate.100"); /* Light track */
+    border-radius: var(--border-radius-full);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: theme("colors.slate.400"); /* Neutral thumb */
+    border-radius: var(--border-radius-full);
+    border: 2px solid theme("colors.slate.100"); /* Creates padding around thumb */
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: theme("colors.slate.500"); /* Darker on hover */
+  }
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+}
+
+/*
+  Define custom component classes.
+  Use @apply to compose Tailwind utility classes into reusable components.
+*/
+@layer components {
+  /* Modern Button Component Style */
+  .btn {
+    @apply inline-flex items-center justify-center font-medium
+           border border-transparent
+           rounded-[var(--border-radius-md)] shadow-[var(--shadow-sm)]
+           text-sm sm:text-base px-4 py-2.5 sm:px-5 sm:py-3
+           focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
+           transition-all duration-200 ease-in-out
+           transform hover:-translate-y-0.5 active:translate-y-0 /* Subtle lift on hover */
+           disabled:opacity-60 disabled:shadow-none disabled:transform-none disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply btn bg-[var(--color-primary)] text-[var(--color-primary-text)]
+           hover:bg-[var(--color-primary-hover)] active:bg-[var(--color-primary-active)]
+           focus-visible:ring-[var(--color-primary-focus-ring)];
+  }
+
+  .btn-secondary {
+    @apply btn bg-[var(--color-secondary)] text-[var(--color-secondary-text)]
+           hover:bg-[var(--color-secondary-hover)] active:bg-[var(--color-secondary-active)]
+           focus-visible:ring-[var(--color-secondary-focus-ring)];
+  }
+
+  .btn-outline {
+     @apply btn border-slate-300 text-slate-700 bg-white
+            hover:bg-slate-50 hover:border-slate-400 active:bg-slate-100
+            focus-visible:ring-[var(--color-primary-focus-ring)];
+  }
+  
+  .btn-ghost {
+    @apply btn bg-transparent text-slate-700 shadow-none
+           hover:bg-slate-100 hover:text-slate-900 active:bg-slate-200
+           focus-visible:ring-slate-400;
+  }
+
+  /* Modern Card Component Style */
+  .card {
+    @apply bg-white rounded-[var(--border-radius-lg)] shadow-[var(--shadow-lg)] border border-slate-200/70;
+  }
+  .card-padded {
+    @apply card p-6 sm:p-8;
+  }
+  .card-interactive {
+    @apply card transition-all duration-200 ease-out hover:shadow-[var(--shadow-xl)] hover:border-slate-300/80 hover:-translate-y-0.5; /* Subtle lift */
+  }
+
+  /* Modern Input Field Style (base for more complex inputs) */
+  .input-base {
+    @apply block w-full 
+           text-slate-900 placeholder-slate-400
+           border border-slate-300 rounded-[var(--border-radius-md)] shadow-[var(--shadow-sm)]
+           text-sm sm:text-base px-3.5 py-2.5 sm:px-4 sm:py-3
+           focus:outline-none focus:ring-2 focus:ring-[var(--color-primary-focus-ring)] focus:border-[var(--color-primary-focus-ring)]
+           hover:border-slate-400
+           transition-all duration-200 ease-in-out
+           disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed disabled:shadow-none;
+  }
+
+  /* Custom Checkbox/Radio Styles for a consistent modern look */
+  .form-checkbox-custom {
+    @apply h-5 w-5 rounded text-[var(--color-primary)] border-slate-300 shadow-[var(--shadow-xs)]
+           focus:border-[var(--color-primary-focus-ring)] focus:ring focus:ring-offset-0 
+           focus:ring-[var(--color-primary-focus-ring)] focus:ring-opacity-50
+           transition-all duration-150;
+  }
+
+  .form-radio-custom {
+    @apply h-5 w-5 rounded-full text-[var(--color-primary)] border-slate-300 shadow-[var(--shadow-xs)]
+           focus:border-[var(--color-primary-focus-ring)] focus:ring focus:ring-offset-0 
+           focus:ring-[var(--color-primary-focus-ring)] focus:ring-opacity-50
+           transition-all duration-150;
+  }
+}
+
+/*
+  Define custom utility classes and animations for enhanced interactivity and visual appeal.
+*/
+@layer utilities {
+  /* Improves text rendering for readability */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* General purpose subtle focus ring, adaptable for light/dark modes */
+  .focus-ring-subtle {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-900 focus-visible:ring-sky-500/70;
+  }
+
+  /* Custom transition property for smoother complex animations */
+  .transition-transform-opacity {
+    transition-property: transform, opacity, background-color, border-color, box-shadow, fill, stroke;
+    transition-timing-function: theme("transitionTimingFunction.out"); /* ease-out for a snappier feel */
+    transition-duration: theme("transitionDuration.200"); /* 200ms for most interactions */
+  }
+
+  /* Animation: Fade In (Gentle appearance) */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .animate-fadeIn {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+
+  /* Animation: Fade In & Scale Up (For modals, dropdowns, popovers) */
+  @keyframes fadeInScaleUp {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(-4px); /* Slightly less Y translation */
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+  .animate-fadeInScaleUp {
+    animation: fadeInScaleUp 0.15s ease-out forwards; /* Consistent with ExportPanel's original intent */
+  }
+
+  /* Animation: Subtle Pop/Scale (For interactive elements on click/focus) */
+  @keyframes subtlePop {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+  }
+  .animate-subtlePop {
+    animation: subtlePop 0.3s ease-in-out;
+  }
+
+  /* Animation: Slide In From Bottom (For notifications, items appearing) */
+  @keyframes slideInFromBottom {
+    from {
+      opacity: 0;
+      transform: translateY(16px); /* Slightly less travel */
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-slideInFromBottom {
+    animation: slideInFromBottom 0.3s ease-out forwards;
+  }
+
+  /* Animation: Drag Item Lift (Subtle lift and shadow increase for draggable items) */
+  @keyframes dragItemLift {
+    to {
+      transform: scale(1.03) translateY(-2px);
+      box-shadow: var(--shadow-xl);
+    }
+  }
+  .animate-dragItemLift {
+    animation: dragItemLift 0.2s ease-out forwards;
+  }
+  
+  /* Animation: Drag Item Drop (Subtle settle animation) */
+  @keyframes dragItemDrop {
+    from {
+      transform: scale(1.03);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  .animate-dragItemDrop {
+    animation: dragItemDrop 0.2s ease-out forwards;
+  }
+
+  /* Glassmorphism Background Utility (Use sparingly for modern accents) */
+  .bg-glass {
+    @apply bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-30;
+    /* Example: bg-white/30 backdrop-blur-lg */
+  }
+}
